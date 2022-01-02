@@ -52,7 +52,7 @@ public class Net extends NetObject{
         return arc;
     }
     
-    public Place cercaPostoByName(String name) {
+    public Place creaPostoByName(String name) {
     	for(Place p: places) {
     		if((p.getName()).equals(name))
     			return p;
@@ -60,12 +60,36 @@ public class Net extends NetObject{
     	return null;
     }
     
-    public Transition cercaTransizioneByName(String name) {
+    public Transition creaTransizioneByName(String name) {
     	for(Transition t: transitions) {
     		if((t.getName()).equals(name))
     			return t;
     	}
     	return null;
+    }
+    
+    public boolean cercaTransizioneByName(String name) {
+    	for(Transition t: transitions) {
+    		if((t.getName()).equals(name))
+    			return true;
+    	}
+    	return false;
+    }
+    
+    public boolean cercaPostoByName(String name) {
+    	for(Place p: places) {
+    		if((p.getName()).equals(name))
+    			return true;
+    	}
+    	return false;
+    }
+    
+    public boolean cercaArcoByName(String name) {
+    	for(Arc a: arcs)
+    		if(a.getName().equals(name))
+    			return true;
+    	
+		return false;
     }
     
     //controllo:tutti i posti e tutte le transizioni devono essere connesse

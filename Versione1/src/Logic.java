@@ -87,25 +87,45 @@ public class Logic
 			case 1:
 				System.out.println("inserisci il nome del posto");
 				String nomePosto = in.next();
-				Place p = n.place(nomePosto); 
+				
+			    if(n.cercaPostoByName(nomePosto)) {
+			    	System.out.println("Posto già aggiunto!"); 
+			    }
+			    else {
+			    	Place p = n.place(nomePosto); 
+			    }
+			    
 				break;
 				
 			case 2:
 				System.out.println("inserisci il nome della transizione");
 				String nomeTransizione = in.next();
-				Transition t = n.transition(nomeTransizione);
+				
+				if(n.cercaTransizioneByName(nomeTransizione)) {
+					System.out.println("Transizione già aggiunta!"); 
+				}
+				else {
+					Transition t = n.transition(nomeTransizione);
+				}
+				
 				break;
 				
 			case 3:
 				System.out.println("Inserisci il nome dell'arco");
 				String nomeA = in.next();
+				
+				if(n.cercaArcoByName(nomeA)) {
+					System.out.println("Arco già inserito!\n");
+					break;
+				}
+				
 				System.out.println("Inserisci il nome del posto");
 				String nomeP = in.next();
 				System.out.println("Inserisci il nome della transizione");
 				String nomeT = in.next();
 				
-				Transition transizione = n.cercaTransizioneByName(nomeT);
-				Place posto = n.cercaPostoByName(nomeP);
+				Transition transizione = n.creaTransizioneByName(nomeT);
+				Place posto = n.creaPostoByName(nomeP);
 			
 				System.out.println("Scegli la direzione:");
 				System.out.println("1)posto -> transizione");
