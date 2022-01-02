@@ -18,6 +18,7 @@ public class Logic
 	//C:\\Users\\azzin\\OneDrive\\Desktop\\reti.cvs
 	//C:\\Users\\bolgi\\eclipse-workspace\\Versione1.5\\file.cvs
 	
+	//token Ale: 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
 	//token Bolgiani: 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
 	static Scanner in = new Scanner(System.in);
 	static List<Net> nets = new ArrayList<Net>();
