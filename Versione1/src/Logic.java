@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 public class Logic 
 {
+	//fuck off
 	private static final String MESS_RIPETIZIONE = "ATTENZIONE: la coppia è già presente";
 	private static final String fileName = "C:\\Users\\bolgi\\eclipse-workspace\\Versione1.5\\file.cvs";
 	//C:\\Users\\azzin\\OneDrive\\Desktop\\reti.cvs
