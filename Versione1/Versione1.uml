@@ -4,7 +4,7 @@
     <eAnnotations xmi:id="_zDTeoGTDEeyG97wnoSRlAw" source="http://ns.yatta.de/umllab">
       <contents xmi:type="ecore:EAnnotation" xmi:id="_zDUFsGTDEeyG97wnoSRlAw" source="codegen">
         <details xmi:id="_zDUFsWTDEeyG97wnoSRlAw" key="codegenDirectory" value="/Versione1/src"/>
-        <details xmi:id="_z7sfMGTDEeyG97wnoSRlAw" key="AssociatedSourceCode" value="/Versione1/src/Arc.java;1013093928/1;/Versione1/src/Logic.java;612522385/1;/Versione1/src/Net.java;1069111887/1;/Versione1/src/NetObject.java;2480490221/1;/Versione1/src/Place.java;2243445439/1;/Versione1/src/Transition.java;4059494617/1;/Versione1/src/V1Main.java;1237392313/1;"/>
+        <details xmi:id="_z7sfMGTDEeyG97wnoSRlAw" key="AssociatedSourceCode" value="/Versione1/src/Arc.java;1013093928/1;/Versione1/src/Logic.java;3074299063/1;/Versione1/src/Net.java;1069111887/1;/Versione1/src/NetObject.java;2480490221/1;/Versione1/src/Place.java;2243445439/1;/Versione1/src/Transition.java;4059494617/1;/Versione1/src/V1Main.java;1237392313/1;"/>
       </contents>
     </eAnnotations>
     <elementImport xmi:id="_zW8MUGTDEeyG97wnoSRlAw">
@@ -54,8 +54,8 @@
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_zW1eoGTDEeyG97wnoSRlAw" name="Arc">
       <generalization xmi:id="_zbAM8GTDEeyG97wnoSRlAw" general="_zYoOYGTDEeyG97wnoSRlAw"/>
-      <ownedAttribute xmi:id="_zcmvcGTDEeyG97wnoSRlAw" name="" visibility="package" type="_zYx_YGTDEeyG97wnoSRlAw" association="_zdrtgGTDEeyG97wnoSRlAw"/>
-      <ownedAttribute xmi:id="_zcpywGTDEeyG97wnoSRlAw" name="" visibility="package" type="_zY4GAGTDEeyG97wnoSRlAw" association="_zds7oGTDEeyG97wnoSRlAw"/>
+      <ownedAttribute xmi:id="_zcmvcGTDEeyG97wnoSRlAw" name="place" visibility="package" type="_zYx_YGTDEeyG97wnoSRlAw" association="_zdrtgGTDEeyG97wnoSRlAw"/>
+      <ownedAttribute xmi:id="_zcpywGTDEeyG97wnoSRlAw" name="transition" visibility="package" type="_zY4GAGTDEeyG97wnoSRlAw" association="_zds7oGTDEeyG97wnoSRlAw"/>
       <ownedAttribute xmi:id="_zcrn8GTDEeyG97wnoSRlAw" name="direction" visibility="package" type="_zXCS8GTDEeyG97wnoSRlAw"/>
       <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_zdL-QGTDEeyG97wnoSRlAw" name="Arc" specification="_za4RIGTDEeyG97wnoSRlAw">
         <ownedParameter xmi:id="_zdMlUGTDEeyG97wnoSRlAw" name="name">
@@ -136,10 +136,14 @@
       </nestedClassifier>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_zXWcAGTDEeyG97wnoSRlAw" name="Logic">
+      <ownedAttribute xmi:id="_zctdImTDEeyG97wnoSRlAw" name="fileName" visibility="private" isLeaf="true" isStatic="true" isReadOnly="true">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_zcuEMGTDEeyG97wnoSRlAw" value="&quot;C:\\Users\\azzin\\OneDrive\\Desktop\\reti.cvs&quot;"/>
+      </ownedAttribute>
       <ownedAttribute xmi:id="_zcuEMWTDEeyG97wnoSRlAw" name="in" visibility="package" isStatic="true" type="_zbt-oGTDEeyG97wnoSRlAw" association="_zdtisWTDEeyG97wnoSRlAw">
         <defaultValue xmi:type="uml:LiteralString" xmi:id="_zcurQGTDEeyG97wnoSRlAw" value="new Scanner(System.in)"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_zcvSUWTDEeyG97wnoSRlAw" name="" visibility="package" isStatic="true" type="_zX4ngGTDEeyG97wnoSRlAw" isOrdered="true" association="_zdvX4GTDEeyG97wnoSRlAw">
+      <ownedAttribute xmi:id="_zcvSUWTDEeyG97wnoSRlAw" name="nets" visibility="package" isStatic="true" type="_zX4ngGTDEeyG97wnoSRlAw" isOrdered="true" association="_zdvX4GTDEeyG97wnoSRlAw">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zcvSUmTDEeyG97wnoSRlAw" value="*"/>
         <defaultValue xmi:type="uml:LiteralString" xmi:id="_zcv5YGTDEeyG97wnoSRlAw" value="new ArrayList&lt;Net>()"/>
       </ownedAttribute>
@@ -366,7 +370,6 @@
       <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_zdW9YGTDEeyG97wnoSRlAw" name="ControllaRete" specification="_zby3IGTDEeyG97wnoSRlAw">
         <ownedParameter xmi:id="_zdW9YWTDEeyG97wnoSRlAw" name="n" type="_zX4ngGTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zdW9YmTDEeyG97wnoSRlAw" direction="return">
-          <name xsi:nil="true"/>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
         </ownedParameter>
         <language>java</language>
@@ -387,7 +390,6 @@
       <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_zdW9Y2TDEeyG97wnoSRlAw" name="ControllaUnicita" specification="_zb0sUGTDEeyG97wnoSRlAw">
         <ownedParameter xmi:id="_zdW9ZGTDEeyG97wnoSRlAw" name="daControllare" type="_zX4ngGTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zdW9ZWTDEeyG97wnoSRlAw" direction="return">
-          <name xsi:nil="true"/>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
         </ownedParameter>
         <language>java</language>
@@ -408,7 +410,6 @@
       <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_zdXkcGTDEeyG97wnoSRlAw" name="ControllaPXT" specification="_zb1TYWTDEeyG97wnoSRlAw">
         <ownedParameter xmi:id="_zdXkcWTDEeyG97wnoSRlAw" name="net1" type="_zX4ngGTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zdXkcmTDEeyG97wnoSRlAw" direction="return">
-          <name xsi:nil="true"/>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
         </ownedParameter>
         <language>java</language>
@@ -430,7 +431,6 @@
       <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_zdXkc2TDEeyG97wnoSRlAw" name="ControllaTXP" specification="_zb2hgGTDEeyG97wnoSRlAw">
         <ownedParameter xmi:id="_zdXkdGTDEeyG97wnoSRlAw" name="net1" type="_zX4ngGTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zdXkdWTDEeyG97wnoSRlAw" direction="return">
-          <name xsi:nil="true"/>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
         </ownedParameter>
         <language>java</language>
@@ -452,7 +452,6 @@
         <ownedParameter xmi:id="_zdYLgWTDEeyG97wnoSRlAw" name="r1" type="_zbofEWTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zdYLgmTDEeyG97wnoSRlAw" name="r2" type="_zbofEWTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zdYLg2TDEeyG97wnoSRlAw" direction="return">
-          <name xsi:nil="true"/>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
         </ownedParameter>
         <language>java</language>
@@ -465,7 +464,6 @@
         <ownedParameter xmi:id="_zdYykWTDEeyG97wnoSRlAw" name="r1" type="_zbofEWTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zdYykmTDEeyG97wnoSRlAw" name="r2" type="_zbofEWTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zdYyk2TDEeyG97wnoSRlAw" direction="return">
-          <name xsi:nil="true"/>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
         </ownedParameter>
         <language>java</language>
@@ -478,9 +476,7 @@
         <ownedParameter xmi:id="_zdYylWTDEeyG97wnoSRlAw" name="name">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedParameter>
-        <ownedParameter xmi:id="_zdYylmTDEeyG97wnoSRlAw" type="_zX4ngGTDEeyG97wnoSRlAw" direction="return">
-          <name xsi:nil="true"/>
-        </ownedParameter>
+        <ownedParameter xmi:id="_zdYylmTDEeyG97wnoSRlAw" type="_zX4ngGTDEeyG97wnoSRlAw" direction="return"/>
         <language>java</language>
         <body>for(Net n: nets) {&#xD;
  		if(n.getName().equals(name))&#xD;
@@ -491,15 +487,15 @@
       </ownedBehavior>
       <ownedOperation xmi:id="_zXaGYGTDEeyG97wnoSRlAw" name="start" method="_zdVIMGTDEeyG97wnoSRlAw" raisedException="_zbKlAWTDEeyG97wnoSRlAw"/>
       <ownedOperation xmi:id="_zXeX0GTDEeyG97wnoSRlAw" name="AggiungiRete" visibility="private" isStatic="true" method="_zdVvQGTDEeyG97wnoSRlAw" raisedException="_zbKlAWTDEeyG97wnoSRlAw"/>
-      <ownedOperation xmi:id="_zXgNAGTDEeyG97wnoSRlAw" name="VisualizzaRete" visibility="private" isStatic="true" method="_zdWWUmTDEeyG97wnoSRlAw"/>
-      <ownedOperation xmi:id="_zXhbIGTDEeyG97wnoSRlAw" name="CaricaReti" visibility="private" isStatic="true" method="_zdWWU2TDEeyG97wnoSRlAw" raisedException="_zbKlAWTDEeyG97wnoSRlAw"/>
-      <ownedOperation xmi:id="_zXmToGTDEeyG97wnoSRlAw" name="CercaReteByName" visibility="private" isStatic="true" method="_zdYylGTDEeyG97wnoSRlAw">
+      <ownedOperation xmi:id="_zXgNAGTDEeyG97wnoSRlAw" name="VisualizzaRete" visibility="package" isStatic="true" method="_zdWWUmTDEeyG97wnoSRlAw"/>
+      <ownedOperation xmi:id="_zXhbIGTDEeyG97wnoSRlAw" name="CaricaReti" isStatic="true" method="_zdWWU2TDEeyG97wnoSRlAw" raisedException="_zbKlAWTDEeyG97wnoSRlAw"/>
+      <ownedOperation xmi:id="_zXmToGTDEeyG97wnoSRlAw" name="CercaReteByName" isStatic="true" method="_zdYylGTDEeyG97wnoSRlAw">
         <ownedParameter xmi:id="_zXm6sGTDEeyG97wnoSRlAw" name="name">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedParameter>
         <ownedParameter xmi:id="_zb3IkGTDEeyG97wnoSRlAw" type="_zX4ngGTDEeyG97wnoSRlAw" direction="return"/>
       </ownedOperation>
-      <ownedOperation xmi:id="_zbxB8GTDEeyG97wnoSRlAw" name="Scrittura" visibility="private" isStatic="true" method="_zdWWUGTDEeyG97wnoSRlAw" raisedException="_zbKlAWTDEeyG97wnoSRlAw">
+      <ownedOperation xmi:id="_zbxB8GTDEeyG97wnoSRlAw" name="Scrittura" isStatic="true" method="_zdWWUGTDEeyG97wnoSRlAw" raisedException="_zbKlAWTDEeyG97wnoSRlAw">
         <ownedParameter xmi:id="_zbxpAGTDEeyG97wnoSRlAw" name="n" type="_zX4ngGTDEeyG97wnoSRlAw"/>
       </ownedOperation>
       <ownedOperation xmi:id="_zby3IGTDEeyG97wnoSRlAw" name="ControllaRete" visibility="private" isStatic="true" method="_zdW9YGTDEeyG97wnoSRlAw">
@@ -508,32 +504,32 @@
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:id="_zb0sUGTDEeyG97wnoSRlAw" name="ControllaUnicita" visibility="private" isStatic="true" method="_zdW9Y2TDEeyG97wnoSRlAw">
+      <ownedOperation xmi:id="_zb0sUGTDEeyG97wnoSRlAw" name="ControllaUnicita" isStatic="true" method="_zdW9Y2TDEeyG97wnoSRlAw">
         <ownedParameter xmi:id="_zb0sUWTDEeyG97wnoSRlAw" name="daControllare" type="_zX4ngGTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zb1TYGTDEeyG97wnoSRlAw" direction="return">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:id="_zb1TYWTDEeyG97wnoSRlAw" name="ControllaPXT" visibility="private" isStatic="true" method="_zdXkcGTDEeyG97wnoSRlAw">
+      <ownedOperation xmi:id="_zb1TYWTDEeyG97wnoSRlAw" name="ControllaPXT" isStatic="true" method="_zdXkcGTDEeyG97wnoSRlAw">
         <ownedParameter xmi:id="_zb16cGTDEeyG97wnoSRlAw" name="net1" type="_zX4ngGTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zb16cWTDEeyG97wnoSRlAw" direction="return">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:id="_zb2hgGTDEeyG97wnoSRlAw" name="ControllaTXP" visibility="private" isStatic="true" method="_zdXkc2TDEeyG97wnoSRlAw">
+      <ownedOperation xmi:id="_zb2hgGTDEeyG97wnoSRlAw" name="ControllaTXP" isStatic="true" method="_zdXkc2TDEeyG97wnoSRlAw">
         <ownedParameter xmi:id="_zb2hgWTDEeyG97wnoSRlAw" name="net1" type="_zX4ngGTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zb2hgmTDEeyG97wnoSRlAw" direction="return">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:id="_zcSmYGTDEeyG97wnoSRlAw" name="ControllaValoriPXT" visibility="private" isStatic="true" method="_zdYLgGTDEeyG97wnoSRlAw">
+      <ownedOperation xmi:id="_zcSmYGTDEeyG97wnoSRlAw" name="ControllaValoriPXT" isStatic="true" method="_zdYLgGTDEeyG97wnoSRlAw">
         <ownedParameter xmi:id="_zcSmYWTDEeyG97wnoSRlAw" name="r1" type="_zbofEWTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zcTNcGTDEeyG97wnoSRlAw" name="r2" type="_zbofEWTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zcT0gGTDEeyG97wnoSRlAw" direction="return">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:id="_zcYF8GTDEeyG97wnoSRlAw" name="ControllaValoriTXP" visibility="private" isStatic="true" method="_zdYykGTDEeyG97wnoSRlAw">
+      <ownedOperation xmi:id="_zcYF8GTDEeyG97wnoSRlAw" name="ControllaValoriTXP" isStatic="true" method="_zdYykGTDEeyG97wnoSRlAw">
         <ownedParameter xmi:id="_zcYF8WTDEeyG97wnoSRlAw" name="r1" type="_zbofEWTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zcYtAGTDEeyG97wnoSRlAw" name="r2" type="_zbofEWTDEeyG97wnoSRlAw"/>
         <ownedParameter xmi:id="_zcYtAWTDEeyG97wnoSRlAw" direction="return">
@@ -543,15 +539,15 @@
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_zX4ngGTDEeyG97wnoSRlAw" name="Net">
       <generalization xmi:id="_zcDV0GTDEeyG97wnoSRlAw" general="_zYoOYGTDEeyG97wnoSRlAw"/>
-      <ownedAttribute xmi:id="_zcy8sWTDEeyG97wnoSRlAw" name="" visibility="package" type="_zYx_YGTDEeyG97wnoSRlAw" isOrdered="true" association="_zdx0IGTDEeyG97wnoSRlAw">
+      <ownedAttribute xmi:id="_zcy8sWTDEeyG97wnoSRlAw" name="places" visibility="package" type="_zYx_YGTDEeyG97wnoSRlAw" isOrdered="true" association="_zdx0IGTDEeyG97wnoSRlAw">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zcy8smTDEeyG97wnoSRlAw" value="*"/>
         <defaultValue xmi:type="uml:LiteralString" xmi:id="_zczjwGTDEeyG97wnoSRlAw" value="new ArrayList&lt;Place>()"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_zc1Y8GTDEeyG97wnoSRlAw" name="" visibility="package" type="_zY4GAGTDEeyG97wnoSRlAw" isOrdered="true" association="_zdzpUWTDEeyG97wnoSRlAw">
+      <ownedAttribute xmi:id="_zc1Y8GTDEeyG97wnoSRlAw" name="transitions" visibility="package" type="_zY4GAGTDEeyG97wnoSRlAw" isOrdered="true" association="_zdzpUWTDEeyG97wnoSRlAw">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zc2AAGTDEeyG97wnoSRlAw" value="*"/>
         <defaultValue xmi:type="uml:LiteralString" xmi:id="_zc2AAWTDEeyG97wnoSRlAw" value="new ArrayList&lt;Transition>()"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_zc3OIGTDEeyG97wnoSRlAw" name="" visibility="package" type="_zW1eoGTDEeyG97wnoSRlAw" isOrdered="true" association="_zd03cGTDEeyG97wnoSRlAw">
+      <ownedAttribute xmi:id="_zc3OIGTDEeyG97wnoSRlAw" name="arcs" visibility="package" type="_zW1eoGTDEeyG97wnoSRlAw" isOrdered="true" association="_zd03cGTDEeyG97wnoSRlAw">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zc3OIWTDEeyG97wnoSRlAw" value="*"/>
         <defaultValue xmi:type="uml:LiteralString" xmi:id="_zc3OImTDEeyG97wnoSRlAw" value="new ArrayList&lt;Arc>()"/>
       </ownedAttribute>

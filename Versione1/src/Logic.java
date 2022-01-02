@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Logic 
 {
 	private static final String MESS_RIPETIZIONE = "ATTENZIONE: la coppia è già presente";
-	private static final String fileName = "C:\\Users\\azzin\\OneDrive\\Desktop\\reti.cvs";
+	private static final String fileName = "C:\\Users\\bolgi\\eclipse-workspace\\Versione1.5\\file.cvs";
 	static Scanner in = new Scanner(System.in);
 	static List<Net> nets = new ArrayList<Net>();
 	
@@ -49,8 +49,22 @@ public class Logic
 	//secondo menù per l'aggiunta della rete
 	private static void AggiungiRete() throws IOException 
 	{
-		System.out.println("Scegli il nome della rete: ");
-		String nomeRete = in.next(); 
+		boolean nomeok = true;
+		String nomeRete = null;
+		
+		do {
+			System.out.println("Scegli il nome della rete: ");
+			nomeRete = in.next(); 
+			
+			for(Net n: nets) {
+	    		if(n.getName().equals(nomeRete)) {
+	    			nomeok = false;
+	    			System.out.println("Nome già presente");
+	    		}
+	    	}
+			
+		}while(!nomeok);
+		
 		Net n = new Net(nomeRete);
 		nets.add(n);
 		
@@ -144,43 +158,48 @@ public class Logic
 	//scrittura della nuova rete su file
 	private static void Scrittura(Net n) throws IOException 
 	{
-		
-		FileWriter fw = null;
-		BufferedWriter bw = null;
-		PrintWriter pw = null;
-		try {
-			fw = new FileWriter(fileName, true);
-			bw = new BufferedWriter(fw);
-			pw = new PrintWriter(bw);
-			
-			pw.printf(n.getName());
-			pw.print(",");
-			int count = 0;
-			for(Arc a: n.arcs) {
-				pw.printf(a.getName());
-				pw.print(":");
-				pw.printf(a.place.getName());
-				pw.print(":");
-				pw.printf(a.transition.getName());
-				pw.print(":");
-				pw.printf(a.direction.toString());
-				count++;
-				if(count != n.arcs.size())
-					pw.print(",");
-			}
-			pw.println();
-		
-			}finally {
-				try {
-					pw.close();
-					fw.close();
-					bw.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+		if(n != null) {
+			FileWriter fw = null;
+			BufferedWriter bw = null;
+			PrintWriter pw = null;
+			try {
+				fw = new FileWriter(fileName, true);
+				bw = new BufferedWriter(fw);
+				pw = new PrintWriter(bw);
+				
+				pw.printf(n.getName());
+				pw.print(",");
+				int count = 0;
+				for(Arc a: n.arcs) {
+					pw.printf(a.getName());
+					pw.print(":");
+					pw.printf(a.place.getName());
+					pw.print(":");
+					pw.printf(a.transition.getName());
+					pw.print(":");
+					pw.printf(a.direction.toString());
+					count++;
+					if(count != n.arcs.size())
+						pw.print(",");
 				}
-	     
-			}	
+				pw.println();
+			
+				}finally {
+					try {
+						pw.close();
+						fw.close();
+						bw.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+		     
+				}	
 		}
+		else {
+			System.out.println("ERRORE nella rete passata");
+		}
+		
+	}
 	
 	//trova la rete da visualizzare e la stampa a video
 	private static void VisualizzaRete() 
@@ -194,6 +213,7 @@ public class Logic
 			List<Arc> arcsList = net.getArcs();
 			
 			for(Arc ar: arcsList) {	
+				System.out.printf("Nome rete: %s", net.getName());
 				System.out.printf("----------%s----------", ar.getName());
 				System.out.printf("\nArco: %s, ", ar.getName());
 				System.out.printf("Posto: %s, ", ar.place.getName());
@@ -209,32 +229,33 @@ public class Logic
 		String line = "";
 		try {
 			reader = new BufferedReader(new FileReader(fileName));
-			
-			while((line = reader.readLine()) != null ) {
-				String[] row = line.split(",");
-				
-				Net nuovaRete = null;
-				Place p = null;
-				Transition t = null;
-				Arc a = null;
-			    nuovaRete = new Net(row[0]);
-			    
-				for(String o : row) {
-					if(!o.equals(row[0])){
-						String[] obje = o.split(":");
-						p = nuovaRete.place(obje[1]);	
-						t = nuovaRete.transition(obje[2]);
-						
-						if(obje[3].equals("PLACE_TO_TRANSITION"))
-							a = nuovaRete.arc(obje[0], p, t);
-						else
-							a = nuovaRete.arc(obje[0], t, p);
+		
+			System.out.println(fileName.length());
+				while((line = reader.readLine()) != null ) {
+					String[] row = line.split(",");
+					
+					Net nuovaRete = null;
+					Place p = null;
+					Transition t = null;
+					Arc a = null;
+				    nuovaRete = new Net(row[0]);
+				    
+					for(String o : row) {
+						if(!o.equals(row[0])){
+							String[] obje = o.split(":");
+							p = nuovaRete.place(obje[1]);	
+							t = nuovaRete.transition(obje[2]);
+							
+							if(obje[3].equals("PLACE_TO_TRANSITION"))
+								a = nuovaRete.arc(obje[0], p, t);
+							else
+								a = nuovaRete.arc(obje[0], t, p);
+						}
 					}
+					//rete aggiunta alla lista di reti
+					nets.add(nuovaRete);
 				}
-				//rete aggiunta alla lista di reti
-				nets.add(nuovaRete);
-			}
-				
+			
 		}catch(IOException e) {
 			e.printStackTrace();
 		}finally {
@@ -246,16 +267,18 @@ public class Logic
 	private static boolean ControllaRete(Net n) 
 	{
 		boolean stato=false;
-			
-			if(n.controllaConnessione() == true) {
-				System.out.printf("La rete %s è correttamente connessa", n.getName());
-				stato = true;
-			}else {
-				System.out.printf("Non tutti i posti/transizioni della rete %s sono connessi\n", n.getName());
-				System.out.println();
-				stato = false;
-			}
 				
+			if(n != null) {
+				if(n.controllaConnessione() == true) {
+					System.out.printf("La rete %s è correttamente connessa", n.getName());
+					stato = true;
+				}else {
+					System.out.printf("Non tutti i posti/transizioni della rete %s sono connessi\n", n.getName());
+					System.out.println();
+					stato = false;
+				}
+			}	
+			
 		return stato;
 	}
 		
@@ -263,15 +286,15 @@ public class Logic
 	private static boolean ControllaUnicita(Net daControllare) {
 		boolean stato = false;
 		
-		if(nets.size() == 1)
-			stato = true;
-		
-		if(!ControllaPXT(daControllare) && !ControllaTXP(daControllare)) 
-			stato = true;
-		
-		else
-			System.out.print(" ma la rete è già esistente\n");
-		
+		if(daControllare != null) {
+			if(nets.size() == 1)
+				stato = true;
+			
+			if(!ControllaPXT(daControllare) && !ControllaTXP(daControllare)) 
+				stato = true;
+			else
+				System.out.print(" ma la rete è già esistente\n");
+		}
 		return stato;
 	}
 	
@@ -328,4 +351,5 @@ public class Logic
     	}
     	return null;
     }
+	
 }
