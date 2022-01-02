@@ -14,9 +14,9 @@ import java.util.Scanner;
 public class Logic 
 {
 	private static final String MESS_RIPETIZIONE = "ATTENZIONE: la coppia è già presente";
-	private static final String fileName = "C:\\Users\\bolgi\\eclipse-workspace\\Versione1.5\\file.cvs";
+	private static final String fileName = "C:\\Users\\bolgi\\git\\repository\\Versione1\\file.cvs";
 	//C:\\Users\\azzin\\OneDrive\\Desktop\\reti.cvs
-	//C:\\Users\\bolgi\\eclipse-workspace\\Versione1.5\\file.cvs
+	//C:\\Users\\bolgi\\git\\repository\\Versione1\\file.cvs
 	
 	//token Ale: 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
 	//token Bolgiani: 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
@@ -274,7 +274,7 @@ public class Logic
 		boolean stato=false;
 				
 			if(n != null) {
-				if(n.controllaConnessione() == true) {
+				if(n.controllaConnessione()) {
 					System.out.printf("La rete %s è correttamente connessa", n.getName());
 					stato = true;
 				}else {
@@ -296,24 +296,27 @@ public class Logic
 				stato = true;
 			
 			if(!ControllaPXT(daControllare) && !ControllaTXP(daControllare)) 
-				stato = true;
-			else
 				System.out.print(" ma la rete è già esistente\n");
+			else
+				stato = true;	
 		}
+		
 		return stato;
 	}
 	
 	//controllo che non esistano già coppie posto-transizione uguali in altre reti
 	private static boolean ControllaPXT(Net net1) {
-		boolean stato = false;
+		boolean stato = true;
 		HashMap<Place,Transition> rete1PXT = net1.getPXT();
 		
 		for(Net net2 : nets) {
 			HashMap<Place, Transition> rete2PXT = net2.getPXT();
 			
 			if(rete1PXT.keySet().equals(rete2PXT.keySet())) {
-				if(ControllaValoriPXT(rete1PXT, rete2PXT))
-					stato = true;
+				if(!(ControllaValoriPXT(rete1PXT, rete2PXT))) {
+					stato = false;
+					break;
+				}
 			}
 		}
 		
@@ -322,15 +325,17 @@ public class Logic
 	
 	//controllo che non esista già coppie transizione-posto uguali in altre reti
 	private static boolean ControllaTXP(Net net1) {
-		boolean stato = false;
+		boolean stato = true;
 		HashMap<Transition,Place> rete1TXP = net1.getTXP();
 		
 		for(Net net2 : nets) {
 			HashMap<Transition, Place> rete2TXP = net2.getTXP();
 			
 			if(rete1TXP.keySet().equals(rete2TXP.keySet())) 
-				if(ControllaValoriTXP(rete1TXP, rete2TXP))
-					stato = true;
+				if(!(ControllaValoriTXP(rete1TXP, rete2TXP))) {
+					stato = false;
+					break;
+				}
 		}
 		
 		return stato;
@@ -339,13 +344,13 @@ public class Logic
 	private static boolean ControllaValoriPXT(HashMap<Place,Transition> r1, HashMap<Place,Transition> r2) {
 		List<Transition> transizioni1 = new ArrayList<Transition>(r1.values());
 		List<Transition> transizioni2 = new ArrayList<Transition>(r2.values());
-		return transizioni1.equals(transizioni2);
+		return !(transizioni1.equals(transizioni2));
 	}
 	
 	private static boolean ControllaValoriTXP(HashMap<Transition,Place> r1, HashMap<Transition,Place> r2) {
 		List<Place> posti1 = new ArrayList<Place>(r1.values());
 		List<Place> posti2 = new ArrayList<Place>(r2.values());
-		return posti1.equals(posti2);
+		return !(posti1.equals(posti2));
 	}
 	
 	private static Net CercaReteByName(String name) 

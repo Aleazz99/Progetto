@@ -68,9 +68,8 @@ public class Net extends NetObject{
     	return null;
     }
     
+    //controllo:tutti i posti e tutte le transizioni devono essere connesse
     public boolean controllaConnessione() {
-    	//controllo:tutti i posti e tutte le transizioni devono essere connesse
-    	
     	int i;
     	int j;
     	for(Transition t: transitions) {
