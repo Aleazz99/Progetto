@@ -5,8 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -14,8 +12,8 @@ import java.util.Scanner;
 public class Logic 
 {
 	private static final String MESS_RIPETIZIONE = "ATTENZIONE: la coppia è già presente";
-	private static final String fileName = "C:\\Users\\bolgi\\git\\repository\\Versione1\\file.cvs";
-	//C:\\Users\\azzin\\OneDrive\\Desktop\\reti.cvs
+	private static final String fileName = "C:\\Users\\azzin\\git\\repository\\Versione1\\file.cvs";
+	//C:\\Users\\azzin\\git\\repository\\Versione1\\file.cvs
 	//C:\\Users\\bolgi\\git\\repository\\Versione1\\file.cvs
 	
 	//token Ale: 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
@@ -54,21 +52,23 @@ public class Logic
 	//secondo menù per l'aggiunta della rete
 	private static void AggiungiRete() throws IOException 
 	{
-		boolean nomeok = true;
+		boolean exit;
 		String nomeRete = null;
 		
 		do {
+			exit = true;
 			System.out.println("Scegli il nome della rete: ");
 			nomeRete = in.next(); 
 			
 			for(Net n: nets) {
 	    		if(n.getName().equals(nomeRete)) {
-	    			nomeok = false;
+	    			exit = false;
 	    			System.out.println("Nome già presente");
+	    			break;
 	    		}
 	    	}
 			
-		}while(!nomeok);
+		}while(exit!=true);
 		
 		Net n = new Net(nomeRete);
 		nets.add(n);
@@ -295,7 +295,7 @@ public class Logic
 			if(nets.size() == 1)
 				stato = true;
 			
-			if(!ControllaPXT(daControllare) && !ControllaTXP(daControllare)) 
+			if(!(ControllaPXT(daControllare)) && !(ControllaTXP(daControllare))) 
 				System.out.print(" ma la rete è già esistente\n");
 			else
 				stato = true;	
@@ -304,7 +304,7 @@ public class Logic
 		return stato;
 	}
 	
-	//controllo che non esistano già coppie posto-transizione uguali in altre reti
+	//controllo che non esistano già coppie posto-transizione uguali in altre reti12
 	private static boolean ControllaPXT(Net net1) {
 		boolean stato = true;
 		HashMap<Place,Transition> rete1PXT = net1.getPXT();
@@ -344,13 +344,14 @@ public class Logic
 	private static boolean ControllaValoriPXT(HashMap<Place,Transition> r1, HashMap<Place,Transition> r2) {
 		List<Transition> transizioni1 = new ArrayList<Transition>(r1.values());
 		List<Transition> transizioni2 = new ArrayList<Transition>(r2.values());
-		return !(transizioni1.equals(transizioni2));
+		return transizioni1.equals(transizioni2);
+		 
 	}
 	
 	private static boolean ControllaValoriTXP(HashMap<Transition,Place> r1, HashMap<Transition,Place> r2) {
 		List<Place> posti1 = new ArrayList<Place>(r1.values());
 		List<Place> posti2 = new ArrayList<Place>(r2.values());
-		return !(posti1.equals(posti2));
+		return posti1.equals(posti2);
 	}
 	
 	private static Net CercaReteByName(String name) 
