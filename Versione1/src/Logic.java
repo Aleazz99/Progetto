@@ -17,6 +17,8 @@ public class Logic
 	private static final String fileName = "C:\\Users\\bolgi\\eclipse-workspace\\Versione1.5\\file.cvs";
 	//C:\\Users\\azzin\\OneDrive\\Desktop\\reti.cvs
 	//C:\\Users\\bolgi\\eclipse-workspace\\Versione1.5\\file.cvs
+	
+	//token Bolgiani: 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
 	static Scanner in = new Scanner(System.in);
 	static List<Net> nets = new ArrayList<Net>();
 	
