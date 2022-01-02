@@ -19,7 +19,7 @@ public class Logic
 	//C:\\Users\\bolgi\\git\\repository\\Versione1\\file.cvs
 	
 	//token Ale: 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
-	//token Bolgiani: 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
+	//token Bolgiani: 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
 	static Scanner in = new Scanner(System.in);
 	static List<Net> nets = new ArrayList<Net>();
 	
