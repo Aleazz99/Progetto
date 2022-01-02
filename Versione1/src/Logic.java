@@ -15,6 +15,7 @@ public class Logic
 {
 	private static final String MESS_RIPETIZIONE = "ATTENZIONE: la coppia è già presente";
 	private static final String fileName = "C:\\Users\\bolgi\\eclipse-workspace\\Versione1.5\\file.cvs";
+	//C:\\Users\\azzin\\OneDrive\\Desktop\\reti.cvs
 	static Scanner in = new Scanner(System.in);
 	static List<Net> nets = new ArrayList<Net>();
 	
