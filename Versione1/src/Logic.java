@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Logic 
 {
 	private static final String MESS_RIPETIZIONE = "ATTENZIONE: la coppia è già presente";
-	private static final String fileName = "C:\\Users\\azzin\\git\\repository\\Versione1\\file.cvs";
+	private static final String fileName = "\\Users\\bolgi\\git\\repository\\Versione1\\file.cvs";
 	//C:\\Users\\azzin\\git\\repository\\Versione1\\file.cvs
 	//C:\\Users\\bolgi\\git\\repository\\Versione1\\file.cvs
 	
@@ -52,6 +52,7 @@ public class Logic
 	//secondo menù per l'aggiunta della rete
 	private static void AggiungiRete() throws IOException 
 	{
+		int scelta2 = 0;
 		boolean exit;
 		String nomeRete = null;
 		
@@ -73,7 +74,6 @@ public class Logic
 		Net n = new Net(nomeRete);
 		nets.add(n);
 		
-		int scelta2 = 0;
 		do {
 			System.out.println("------MENU---------\n");
 			System.out.println("1)Aggiungi posto\n");
@@ -111,6 +111,11 @@ public class Logic
 				break;
 				
 			case 3:
+				Place posto = null;
+				Transition transizione = null;
+				Arc a = null;
+				int direzione = 0;
+				
 				System.out.println("Inserisci il nome dell'arco");
 				String nomeA = in.next();
 				
@@ -119,19 +124,30 @@ public class Logic
 					break;
 				}
 				
-				System.out.println("Inserisci il nome del posto");
-				String nomeP = in.next();
-				System.out.println("Inserisci il nome della transizione");
-				String nomeT = in.next();
+				do {
+					System.out.println("Inserisci il nome del posto");
+					String nomeP = in.next();
+					posto = n.creaPostoByName(nomeP);
+					
+					if(posto == null) 
+						System.out.println("Attenzione! Inserire un posto esistente");
+				}while(posto == null);
 				
-				Transition transizione = n.creaTransizioneByName(nomeT);
-				Place posto = n.creaPostoByName(nomeP);
-			
-				System.out.println("Scegli la direzione:");
-				System.out.println("1)posto -> transizione");
-				System.out.println("2)transizione -> posto:");
-				int direzione = in.nextInt();
-				Arc a;
+				do {
+					System.out.println("Inserisci il nome della transizione");
+					String nomeT = in.next();
+					transizione = n.creaTransizioneByName(nomeT);
+					
+					if(transizione == null)
+						System.out.println("Attenzione! inserire una transizione esistente");
+				}while(transizione == null);
+				
+				do {
+					System.out.println("Scegli la direzione:");
+					System.out.println("1)posto -> transizione");
+					System.out.println("2)transizione -> posto:");
+					direzione = in.nextInt();
+				}while((direzione != 1) && (direzione != 2));
 				
 				//direzione=1 -> posto-transione
 				//direzione=2 -> transizione-posto
@@ -156,30 +172,36 @@ public class Logic
 				break;
 				
 			case 4: 
-				//controllo: ogni rete deve contenere almeno un posto e una transizione
-				if((n.transitions).isEmpty() || (n.places).isEmpty()) {
-					System.out.println("Attenzione! inserire almeno una transizione e un posto");
-					scelta2 = 0;
-				}
+				
+				scelta2 = ControllaAlmenoUno(n);
 				break;		
 			}
+			
 		}while(scelta2 != 4);
+		
+		SalvataggioRete(n);
+		
+	}
+
+	private static void SalvataggioRete(Net daSalvare) throws IOException {
 		
 		System.out.println("Vuoi salvare questa rete? (si/no)->");
 		String risposta = in.next();
+		
 		if(risposta.equals("si")) {
 			System.out.println("\nSTATO RETE E SALVATAGGIO:");
+			
 			//controlli sulla rete prima di salvarla su file
-			if(ControllaRete(n) && ControllaUnicita(n))
-				Scrittura(n);
+			if(ControllaRete(daSalvare) && ControllaUnicita(daSalvare))
+				Scrittura(daSalvare);
 			else{
 				System.out.println("La rete verrà rimossa in quanto non soddisfa i requisiti necessari");
-				nets.remove(n);
+				nets.remove(daSalvare);
 			}
 		}
 		System.out.println();
 	}
-
+	
 	//scrittura della nuova rete su file
 	private static void Scrittura(Net n) throws IOException 
 	{
@@ -286,6 +308,17 @@ public class Logic
 		}finally {
 			reader.close();
 		}
+	}
+	
+	//controllo: ogni rete deve contenere almeno un posto e una transizione
+	private static int ControllaAlmenoUno(Net n) {
+		int s = 0;
+		
+		if((n.transitions).isEmpty() || (n.places).isEmpty())
+			System.out.println("Attenzione! inserire almeno una transizione e un posto");
+		else s = 4;
+		
+		return s;
 	}
 	
 	//controllo se la rete è correttamente connessa
