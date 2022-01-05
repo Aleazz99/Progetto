@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class Logic 
 {
 	private static final String CORNICE = "-----------------------";
@@ -21,7 +22,8 @@ public class Logic
 	private static final String AGGIUNGI_POSTO = "Aggiungi posto\n";
 	private static final String AGGIUNGI_TRANSIZIONE = "Aggiungi transizione\n";
 	private static final String AGGIUNGI_ARCO = "Aggiungi arco\n";
-	private static final String[] VOCI_MENU2 = {AGGIUNGI_POSTO, AGGIUNGI_TRANSIZIONE, AGGIUNGI_ARCO, ESCI};
+	private static final String TORNA_INDIETRO = "Torna indietro\n";
+	private static final String[] VOCI_MENU2 = {AGGIUNGI_POSTO, AGGIUNGI_TRANSIZIONE, AGGIUNGI_ARCO, TORNA_INDIETRO};
 	
 	private static final String SCEGLI_DIREZIONE = "Scegli la direzione dell'arco";
 	private static final String PXT = "Posto -> Transizione";
@@ -43,7 +45,8 @@ public class Logic
 	private static final String MESS_VISUALIZZA_RETE = "Inserisci il nome della rete da visualizzare";
 	private static final String RETE_NON_TROVATA = "rete non trovata";
 	
-	private static final String MESS_ALMENO_UNO = "Attenzione! inserire almeno una transizione e un posto";
+	private static final String MESS_ALMENO_UNO = "Attenzione! Devi prima inserire almeno una transizione e un posto";
+	private static final String MESS_USCITA = "Vuoi uscire lo stesso? (si/no)";
 	private static final String CONNESSIONE_OK = "La rete %s è correttamente connessa";
 	private static final String CONNESSIONE_NOK = "Non tutti i posti/transizioni della rete %s sono connessi\n";
 	
@@ -151,80 +154,105 @@ public class Logic
 				break;
 				
 			case 3:
-				Place posto = null;
-				Transition transizione = null;
-				Arc a = null;
-				int direzione = 0;
-				
-				System.out.println(SCEGLI_NOME);
-				String nomeA = in.next();
-				
-				if(n.cercaArcoByName(nomeA)) {
-					System.out.println(MESS_GIA_ESISTENTE);
+				if(!ControllaAlmenoUno(n)) {
 					break;
-				}
-				
-				do {
-					System.out.println(INSERISCI_POSTO);
-					String nomeP = in.next();
-					posto = n.creaPostoByName(nomeP);
+				}else {
+					Place posto = null;
+					Transition transizione = null;
+					Arc a = null;
+					int direzione = 0;
 					
-					if(posto == null) 
-						System.out.println(INSERISCI_ESISTENTE);
-				}while(posto == null);
-				
-				do {
-					System.out.println(INSERISCI_TRANSIZIONE);
-					String nomeT = in.next();
-					transizione = n.creaTransizioneByName(nomeT);
+					System.out.println(SCEGLI_NOME);
+					String nomeA = in.next();
 					
-					if(transizione == null)
-						System.out.println(INSERISCI_ESISTENTE);
-				}while(transizione == null);
-				
-				do {
-					System.out.println(SCEGLI_DIREZIONE);
-					for(int i = 0; i < VOCI_DIREZIONE.length; i++) {
-						 System.out.println( (i+1) + "\t" + VOCI_DIREZIONE[i]);
-					 }
-					direzione = in.nextInt();
-				}while((direzione != 1) && (direzione != 2));
-				
-				//direzione=1 -> posto-transione
-				//direzione=2 -> transizione-posto
-				
-				if(direzione == 1) {
-					//controllo se è una ripetizione
-					if(!n.controllaRipetizioni(posto, transizione)) {
-						a = n.arc(nomeA, posto, transizione );
+					if(n.cercaArcoByName(nomeA)) {
+						System.out.println(MESS_GIA_ESISTENTE);
+						break;
 					}
-					else
-						System.out.println(MESS_RIPETIZIONE);
 					
-				}
-				else if(direzione == 2) {
-					//controllo se è una ripetizione
-					if(!n.controllaRipetizioni(transizione, posto)) {
-						a = n.arc(nomeA, transizione, posto);
-					}	
-					else
-						System.out.println(MESS_RIPETIZIONE);
+					do {
+						System.out.println(INSERISCI_POSTO);
+						String nomeP = in.next();
+						posto = n.creaPostoByName(nomeP);
+						
+						if(posto == null) 
+							System.out.println(INSERISCI_ESISTENTE);
+					}while(posto == null);
+					
+					do {
+						System.out.println(INSERISCI_TRANSIZIONE);
+						String nomeT = in.next();
+						transizione = n.creaTransizioneByName(nomeT);
+						
+						if(transizione == null)
+							System.out.println(INSERISCI_ESISTENTE);
+					}while(transizione == null);
+					
+					do {
+						System.out.println(SCEGLI_DIREZIONE);
+						for(int i = 0; i < VOCI_DIREZIONE.length; i++) {
+							 System.out.println( (i+1) + "\t" + VOCI_DIREZIONE[i]);
+						 }
+						direzione = in.nextInt();
+					}while((direzione != 1) && (direzione != 2));
+					
+					//direzione=1 -> posto-transione
+					//direzione=2 -> transizione-posto
+					
+					if(direzione == 1) {
+						//controllo se è una ripetizione
+						if(!n.controllaRipetizioni(posto, transizione)) {
+							a = n.arc(nomeA, posto, transizione );
+						}
+						else
+							System.out.println(MESS_RIPETIZIONE);
+						
+					}
+					else if(direzione == 2) {
+						//controllo se è una ripetizione
+						if(!n.controllaRipetizioni(transizione, posto)) {
+							a = n.arc(nomeA, transizione, posto);
+						}	
+						else
+							System.out.println(MESS_RIPETIZIONE);
+					}
 				}
 				break;
 				
 			case 4: 
 				
-				scelta2 = ControllaAlmenoUno(n);
+				if(!ControllaAlmenoUno(n)) {
+					System.out.println(MESS_USCITA);
+					String resp = in.next();
+					if(resp.equals("si")) {
+						nets.remove(n);
+						scelta2 = 4;
+					}else if(resp.equals("no")) {
+						scelta2 = 0;
+					}
+				}else {
+					SalvataggioRete(n);
+				}
 				break;		
 			}
-			
 		}while(scelta2 != 4);
-		
-		SalvataggioRete(n);
 	}
 
+	//trova la rete da visualizzare e la stampa a video
+		private static void VisualizzaRete() 
+		{	
+			System.out.println(MESS_VISUALIZZA_RETE);
+			String rete = in.next();
+			Net net = CercaReteByName(rete);
+			if(net == null)
+				System.out.println(RETE_NON_TROVATA);
+			else {
+				System.out.println(net.toString());
+			}
+			System.out.print("\n");
+		}
+	
 	private static void SalvataggioRete(Net daSalvare) throws IOException {
-		
 		System.out.println(RICHIESTA_SALVATAGGIO);
 		String risposta = in.next();
 		
@@ -288,27 +316,7 @@ public class Logic
 		
 	}
 	
-	//trova la rete da visualizzare e la stampa a video
-	private static void VisualizzaRete() 
-	{	
-		System.out.println(MESS_VISUALIZZA_RETE);
-		String rete = in.next();
-		Net net = CercaReteByName(rete);
-		if(net == null)
-			
-			System.out.println(RETE_NON_TROVATA);
-		else {
-			List<Arc> arcsList = net.getArcs();
-			
-			for(Arc ar: arcsList) {	
-				System.out.printf("Nome rete: %s", net.getName());
-				System.out.printf("----------%s----------", ar.getName());
-				System.out.printf("\nArco: %s, ", ar.getName());
-				System.out.printf("Posto: %s, ", ar.place.getName());
-				System.out.printf("Transizione: %s\n", ar.transition.getName());
-			}
-		}
-	}
+	
 	
 	//questo metodo carica direttamente tutte le reti scritte nel file della lista delle reti
 	private static void CaricaReti () throws IOException
@@ -351,12 +359,11 @@ public class Logic
 	}
 	
 	//controllo: ogni rete deve contenere almeno un posto e una transizione
-	private static int ControllaAlmenoUno(Net n) {
-		int s = 0;
-		
+	private static boolean ControllaAlmenoUno(Net n) {
+		boolean s = false;
 		if((n.transitions).isEmpty() || (n.places).isEmpty())
 			System.out.println(MESS_ALMENO_UNO);
-		else s = 4;
+		else s = true;
 		
 		return s;
 	}

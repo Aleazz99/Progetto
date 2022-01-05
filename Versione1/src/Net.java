@@ -119,6 +119,23 @@ public class Net extends NetObject{
     	return true;
     }
     
+    public String toString() {
+    	StringBuilder sb = new StringBuilder("");
+    	sb.append("Nome rete: ").append(getName());
+    
+		for(Arc ar: arcs) {	
+			sb.append("\nArco ").append(ar.getName());
+			
+			if(ar.GetDirection().equals("PLACE_TO_TRANSITION")) {
+				sb.append("(p,t): ").append(ar.place.getName()).append(" -> ").append(ar.transition.getName());
+			}else{
+				sb.append("(t,p): ").append(ar.transition.getName()).append(" -> ").append(ar.place.getName());
+			}
+		}
+		
+		return sb.toString();
+    }
+    
     public boolean controllaRipetizioni(Place p, Transition t) {
     	if(pxt.get(p) == t)
     		return true;
@@ -129,27 +146,6 @@ public class Net extends NetObject{
     	if(txp.get(t) == p)
     		return true;
     	return false;
-    }
-    
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("Petrinet ");
-        sb.append(super.toString()).append(acapo);
-        sb.append("---Transitions---").append(acapo);
-        for (Transition t : transitions) {
-            sb.append(t).append(acapo);
-        }
-        sb.append("---Places---").append(acapo);
-        for (Place p : places) {
-            sb.append(p).append(acapo);
-        }
-        
-//        sb.append("---Arcs---").append(acapo);
-//        for(Arc a : arcs) {
-//        	sb.append(a).append(acapo);
-//        }
-        
-        return sb.toString();
     }
     
     public HashMap<Transition, Place> getTXP(){

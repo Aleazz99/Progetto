@@ -26,4 +26,9 @@ public class Arc extends NetObject{
         this(name, Direction.TRANSITION_TO_PLACE, p, t);
         t.addOutgoing(this);
     }
+	
+	public String GetDirection() {
+		return direction.toString();
+	}
+	
 }
