@@ -3,10 +3,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Net extends NetObject{
-	private static final String acapo = "\n";
-	
-	
-	
 	List<Place> places = new ArrayList<Place>();
 	List<Transition> transitions = new ArrayList<Transition>();
 	List <Arc> arcs = new ArrayList<Arc>();
