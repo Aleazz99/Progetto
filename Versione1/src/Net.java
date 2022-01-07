@@ -119,23 +119,6 @@ public class Net extends NetObject{
     	return true;
     }
     
-    public String toString() {
-    	StringBuilder sb = new StringBuilder("");
-    	sb.append("Nome rete: ").append(getName());
-    
-		for(Arc ar: arcs) {	
-			sb.append("\nArco ").append(ar.getName());
-			
-			if(ar.GetDirection().equals("PLACE_TO_TRANSITION")) {
-				sb.append("(p,t): ").append(ar.place.getName()).append(" -> ").append(ar.transition.getName());
-			}else{
-				sb.append("(t,p): ").append(ar.transition.getName()).append(" -> ").append(ar.place.getName());
-			}
-		}
-		
-		return sb.toString();
-    }
-    
     public boolean controllaRipetizioni(Place p, Transition t) {
     	if(pxt.get(p) == t)
     		return true;
@@ -168,4 +151,20 @@ public class Net extends NetObject{
         return arcs;
     }
 
+    public String toString() {
+    	StringBuilder sb = new StringBuilder("");
+    	sb.append("Nome rete: ").append(getName());
+    
+		for(Arc ar: arcs) {	
+			sb.append("\nArco ").append(ar.getName());
+			
+			if(ar.GetDirection().equals("PLACE_TO_TRANSITION")) {
+				sb.append("(p,t): ").append(ar.place.getName()).append(" -> ").append(ar.transition.getName());
+			}else{
+				sb.append("(t,p): ").append(ar.transition.getName()).append(" -> ").append(ar.place.getName());
+			}
+		}
+		
+		return sb.toString();
+    }
 }

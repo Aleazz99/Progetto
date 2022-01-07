@@ -9,265 +9,102 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class Logic 
 {
-	private static final String CORNICE = "-----------------------";
-	private static final String AGGIUNGI_RETE = "Aggiungi rete\n";
-	private static final String VISUALIZZA_RETE = "Visualizza rete\n";
-	private static final String ESCI = "Esci\n";
-	private static final String[] VOCI_MENU1 = {AGGIUNGI_RETE, VISUALIZZA_RETE, ESCI};
-	private static final String SCEGLI = "Fai la tua scelta";
-	
-	private static final String AGGIUNGI_POSTO = "Aggiungi posto\n";
-	private static final String AGGIUNGI_TRANSIZIONE = "Aggiungi transizione\n";
-	private static final String AGGIUNGI_ARCO = "Aggiungi arco\n";
-	private static final String TORNA_INDIETRO = "Torna indietro\n";
-	private static final String[] VOCI_MENU2 = {AGGIUNGI_POSTO, AGGIUNGI_TRANSIZIONE, AGGIUNGI_ARCO, TORNA_INDIETRO};
-	
-	private static final String SCEGLI_DIREZIONE = "Scegli la direzione dell'arco";
-	private static final String PXT = "Posto -> Transizione";
-	private static final String TXP = "Transizione -> Posto";
-	private static final String[] VOCI_DIREZIONE = {PXT, TXP};
-
-	private static final String SCEGLI_NOME = "Scegli un nome";
-	private static final String MESS_GIA_ESISTENTE = "Attenzione! elemento già presente\n";
-	private static final String INSERISCI_POSTO = "Inserisci il nome del posto";	
-	private static final String INSERISCI_TRANSIZIONE = "Inserisci il nome della transizione";	
-	private static final String INSERISCI_ESISTENTE = "Attenzione! inserire un elemento esistente\n";
-
-	private static final String RICHIESTA_SALVATAGGIO= "Vuoi salvare questa rete? (si/no)->";
-	private static final String STATO_SALVATAGGIO= "\nSTATO RETE E SALVATAGGIO:";
-
-	private static final String REQUISITI_NON_SODDISFATTI = "La rete verrà rimossa in quanto non soddisfa i requisiti necessari";
-	private static final String ERRORE_GENERICO_RETE = "ERRORE nella rete passata";
-	
-	private static final String MESS_VISUALIZZA_RETE = "Inserisci il nome della rete da visualizzare";
-	private static final String RETE_NON_TROVATA = "rete non trovata";
-	
-	private static final String MESS_ALMENO_UNO = "Attenzione! Devi prima inserire almeno una transizione e un posto";
-	private static final String MESS_USCITA = "Vuoi uscire lo stesso? (si/no)";
-	private static final String CONNESSIONE_OK = "La rete %s è correttamente connessa";
+	private static final String CONNESSIONE_OK  = "La rete %s è correttamente connessa";
 	private static final String CONNESSIONE_NOK = "Non tutti i posti/transizioni della rete %s sono connessi\n";
 	
-	private static final String MESS_RIPETIZIONE = "Attenzione! la coppia è già presente";
-	private static final String MESS_CHIUSURA = "Chiusura programma in corso...";
-	
-	private static final String fileName = "\\Users\\bolgi\\git\\repository\\Versione1\\file.cvs";
+	private static final String fileName = "C:\\\\Users\\\\azzin\\\\git\\\\repository\\\\Versione1\\\\file.cvs";
 	
 	//C:\\Users\\azzin\\git\\repository\\Versione1\\file.cvs
 	//C:\\Users\\bolgi\\git\\repository\\Versione1\\file.cvs
 	
-	//token Ale: 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
 	//token Bolgiani: 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
 	static Scanner in = new Scanner(System.in);
 	static List<Net> nets = new ArrayList<Net>();
 	
-	//metodo iniziale del primo menù
-	public void start() throws IOException 
+	public boolean ControlloNomeRete(String nomeRete)
 	{
-		CaricaReti();
-		int scelta = 0;
-		 do { 
-			 System.out.println(CORNICE);
-			 for(int i = 0; i < VOCI_MENU1.length; i++) {
-				 System.out.println( (i+1) + "\t" + VOCI_MENU1[i]);
-			 }
-			 System.out.println(SCEGLI);
-			 System.out.println(CORNICE);
-			 
-			 scelta = in.nextInt();
-			 switch(scelta) {
-			 case 1:
-				 AggiungiRete();
-				 break;
-			 case 2:
-				 VisualizzaRete();
-				 break;
-			 case 3:
-				 System.out.println(MESS_CHIUSURA);
-				 break;
-		 }
-		 }while(scelta != 3);
+		boolean stato = true;
+		for(Net n: nets) {
+    		if(n.getName().equals(nomeRete)) {
+    			stato = false;
+    			break;
+    		}
+    	}
+		return stato;
 	}
 	
-	//secondo menù per l'aggiunta della rete
-	private static void AggiungiRete() throws IOException 
+	public void AggiungiRete (Net rete)
 	{
-		int scelta2 = 0;
-		boolean exit;
-		String nomeRete = null;
-		
-		do {
-			exit = true;
-			System.out.println(SCEGLI_NOME);
-			nomeRete = in.next(); 
-			
-			for(Net n: nets) {
-	    		if(n.getName().equals(nomeRete)) {
-	    			exit = false;
-	    			System.out.println(MESS_GIA_ESISTENTE);
-	    			break;
-	    		}
-	    	}
-			
-		}while(exit!=true);
-		
-		Net n = new Net(nomeRete);
-		nets.add(n);
-		
-		do {
-			System.out.println(CORNICE);
-			 for(int i = 0; i < VOCI_MENU2.length; i++) {
-				 System.out.println( (i+1) + "\t" + VOCI_MENU2[i]);
-			 }
-			 System.out.println(SCEGLI);
-			 System.out.println(CORNICE);
-			
-			scelta2 = in.nextInt();
-			
-			switch(scelta2) {
-			case 1:
-				System.out.println(SCEGLI_NOME);
-				String nomePosto = in.next();
-				
-			    if(n.cercaPostoByName(nomePosto)) {
-			    	System.out.println(MESS_GIA_ESISTENTE); 
-			    }
-			    else {
-			    	Place p = n.place(nomePosto); 
-			    }
-			    
-				break;
-				
-			case 2:
-				System.out.println(SCEGLI_NOME);
-				String nomeTransizione = in.next();
-				
-				if(n.cercaTransizioneByName(nomeTransizione)) {
-					System.out.println(MESS_GIA_ESISTENTE); 
-				}
-				else {
-					Transition t = n.transition(nomeTransizione);
-				}
-				
-				break;
-				
-			case 3:
-				if(!ControllaAlmenoUno(n)) {
-					break;
-				}else {
-					Place posto = null;
-					Transition transizione = null;
-					Arc a = null;
-					int direzione = 0;
-					
-					System.out.println(SCEGLI_NOME);
-					String nomeA = in.next();
-					
-					if(n.cercaArcoByName(nomeA)) {
-						System.out.println(MESS_GIA_ESISTENTE);
-						break;
-					}
-					
-					do {
-						System.out.println(INSERISCI_POSTO);
-						String nomeP = in.next();
-						posto = n.creaPostoByName(nomeP);
-						
-						if(posto == null) 
-							System.out.println(INSERISCI_ESISTENTE);
-					}while(posto == null);
-					
-					do {
-						System.out.println(INSERISCI_TRANSIZIONE);
-						String nomeT = in.next();
-						transizione = n.creaTransizioneByName(nomeT);
-						
-						if(transizione == null)
-							System.out.println(INSERISCI_ESISTENTE);
-					}while(transizione == null);
-					
-					do {
-						System.out.println(SCEGLI_DIREZIONE);
-						for(int i = 0; i < VOCI_DIREZIONE.length; i++) {
-							 System.out.println( (i+1) + "\t" + VOCI_DIREZIONE[i]);
-						 }
-						direzione = in.nextInt();
-					}while((direzione != 1) && (direzione != 2));
-					
-					//direzione=1 -> posto-transione
-					//direzione=2 -> transizione-posto
-					
-					if(direzione == 1) {
-						//controllo se è una ripetizione
-						if(!n.controllaRipetizioni(posto, transizione)) {
-							a = n.arc(nomeA, posto, transizione );
-						}
-						else
-							System.out.println(MESS_RIPETIZIONE);
-						
-					}
-					else if(direzione == 2) {
-						//controllo se è una ripetizione
-						if(!n.controllaRipetizioni(transizione, posto)) {
-							a = n.arc(nomeA, transizione, posto);
-						}	
-						else
-							System.out.println(MESS_RIPETIZIONE);
-					}
-				}
-				break;
-				
-			case 4: 
-				
-				if(!ControllaAlmenoUno(n)) {
-					System.out.println(MESS_USCITA);
-					String resp = in.next();
-					if(resp.equals("si")) {
-						nets.remove(n);
-						scelta2 = 4;
-					}else if(resp.equals("no")) {
-						scelta2 = 0;
-					}
-				}else {
-					SalvataggioRete(n);
-				}
-				break;		
-			}
-		}while(scelta2 != 4);
+		nets.add(rete);
 	}
-
-	//trova la rete da visualizzare e la stampa a video
-		private static void VisualizzaRete() 
-		{	
-			System.out.println(MESS_VISUALIZZA_RETE);
-			String rete = in.next();
-			Net net = CercaReteByName(rete);
-			if(net == null)
-				System.out.println(RETE_NON_TROVATA);
-			else {
-				System.out.println(net.toString());
-			}
-			System.out.print("\n");
-		}
 	
-	private static void SalvataggioRete(Net daSalvare) throws IOException {
-		System.out.println(RICHIESTA_SALVATAGGIO);
-		String risposta = in.next();
-		
-		if(risposta.equals("si")) {
-			System.out.println(STATO_SALVATAGGIO);
-			
-			//controlli sulla rete prima di salvarla su file
-			if(ControllaRete(daSalvare) && ControllaUnicita(daSalvare))
-				Scrittura(daSalvare);
-			else{
-				System.out.println(REQUISITI_NON_SODDISFATTI);
-				nets.remove(daSalvare);
-			}
+	public void RimuoviRete (Net rete)
+	{
+		nets.remove(rete);
+	}
+	
+	public boolean AggiungiPosto(Net n, String nomePosto)
+	{
+		boolean stato = false;
+		if(!(n.cercaPostoByName(nomePosto))) {
+	    	Place p = n.place(nomePosto); 
+	    	stato = true;
+	    }
+		return stato;
+	}
+	
+	public boolean AggiungiTransizione(Net n, String nomeTransizione)
+	{
+		boolean stato = false;
+		if(!(n.cercaTransizioneByName(nomeTransizione))) {
+	    	Transition t = n.transition(nomeTransizione); 
+	    	stato = true;
+	    }
+		return stato;
+	}
+	
+	public boolean ControlloArco (Net n, String nomeArco)
+	{
+		boolean stato = true;
+		if(n.cercaArcoByName(nomeArco)) {
+			stato = false;
 		}
-		System.out.println();
+		return stato;
+	}
+	
+	public boolean AggiungiArco (Net n, String nomeArco, Place posto, Transition transizione)
+	{
+		boolean stato = false;
+		if(!n.controllaRipetizioni(posto, transizione)) {
+			Arc a = n.arc(nomeArco, posto, transizione );
+			stato = true;
+		}
+		return stato;
+	}
+	
+	public boolean AggiungiArco (Net n, String nomeArco,  Transition transizione, Place posto)
+	{
+		boolean stato = false;
+		if(!n.controllaRipetizioni(transizione, posto)) {
+			Arc a = n.arc(nomeArco, transizione, posto );
+			stato = true;
+		}
+		return stato;
+	}
+	
+	public boolean ControlliRete (Net rete) throws IOException
+	{
+		boolean stato = false;
+		if(ControllaRete(rete) && ControllaUnicita(rete)) {
+			Scrittura(rete);
+			stato = true;
+		}
+		else 
+			nets.remove(rete);
+		
+		return stato;
 	}
 	
 	//scrittura della nuova rete su file
@@ -310,16 +147,12 @@ public class Logic
 		     
 				}	
 		}
-		else {
-			System.out.println(ERRORE_GENERICO_RETE);
-		}
 		
 	}
 	
 	
-	
 	//questo metodo carica direttamente tutte le reti scritte nel file della lista delle reti
-	private static void CaricaReti () throws IOException
+	public void CaricaReti () throws IOException
 	{			         
 		BufferedReader reader = null;
 		String line = "";
@@ -359,11 +192,12 @@ public class Logic
 	}
 	
 	//controllo: ogni rete deve contenere almeno un posto e una transizione
-	private static boolean ControllaAlmenoUno(Net n) {
+	public boolean ControllaAlmenoUno(Net n) {
 		boolean s = false;
 		if((n.transitions).isEmpty() || (n.places).isEmpty())
-			System.out.println(MESS_ALMENO_UNO);
-		else s = true;
+			s = false;
+		else 
+			s = true;
 		
 		return s;
 	}
@@ -454,7 +288,7 @@ public class Logic
 		return posti1.equals(posti2);
 	}
 	
-	private static Net CercaReteByName(String name) 
+	public Net CercaReteByName(String name) 
 	{
     	for(Net n: nets) {
     		if(n.getName().equals(name))
