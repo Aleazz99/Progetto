@@ -98,7 +98,6 @@ public class Logic
 	{
 		boolean stato = false;
 		if(ControllaRete(rete) && ControllaUnicita(rete)) {
-			Scrittura(rete);
 			stato = true;
 		}
 		else 
@@ -108,7 +107,7 @@ public class Logic
 	}
 	
 	//scrittura della nuova rete su file
-	private static void Scrittura(Net n) throws IOException 
+	public void Scrittura(Net n) throws IOException 
 	{
 		if(n != null) {
 			FileWriter fw = null;

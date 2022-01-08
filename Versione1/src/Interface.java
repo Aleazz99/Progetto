@@ -31,9 +31,11 @@ public class Interface {
 	private static final String SALVATAGGIO_RETE= "\nRETE SALVATA CORRETTAMENTE";
 
 	private static final String REQUISITI_NON_SODDISFATTI = "La rete verrà rimossa in quanto non soddisfa i requisiti necessari";
+	private static final String REQUISITI_SODDISFATTI = "\nLa rete è sintatticamente corretta";
 	
-	private static final String MESS_VISUALIZZA_RETE = "Inserisci il nome della rete da visualizzare";
+	private static final String MESS_VISUALIZZA_RETE = "Scegli quale visualizzare tra le seguenti reti:";
 	private static final String RETE_NON_TROVATA = "rete non trovata";
+	private static final String RETE_NON_SALVATA = "\nLa rete non verrà salvata";
 	
 	private static final String MESS_ALMENO_UNO = "Attenzione! Devi prima inserire almeno una transizione e un posto";
 	private static final String MESS_USCITA = "Vuoi uscire lo stesso? (si/no)";
@@ -205,6 +207,10 @@ public class Interface {
 	private void VisualizzaRete() 
 	{	
 		System.out.println(MESS_VISUALIZZA_RETE);
+		for(Net n: logic.nets)
+			System.out.print(n.getName() + " ");
+		
+		System.out.print("\n");
 		String rete = in.next();
 		Net net = logic.CercaReteByName(rete);
 		if(net == null)
@@ -215,19 +221,27 @@ public class Interface {
 		System.out.print("\n");
 	}
 	
+	
 	public void SalvataggioRete(Net daSalvare) throws IOException {
-		System.out.println(RICHIESTA_SALVATAGGIO);
-		String risposta = in.next();
 		
-		if(risposta.equals("si")) {
-			System.out.println(STATO_SALVATAGGIO);
-			
-			//controlli sulla rete prima di salvarla su file
-			if(logic.ControlliRete(daSalvare))
+		System.out.println(STATO_SALVATAGGIO);
+		
+		if(logic.ControlliRete(daSalvare)) {
+			System.out.println(REQUISITI_SODDISFATTI);
+			System.out.println(RICHIESTA_SALVATAGGIO);
+			String risposta = in.next();
+	
+			if(risposta.equals("si")) {
+				logic.Scrittura(daSalvare);
 				System.out.println(SALVATAGGIO_RETE);
-			else 
-				System.out.println(REQUISITI_NON_SODDISFATTI);
-			
+			}
+			else
+				System.out.println(RETE_NON_SALVATA);
+		}
+		else 
+		{
+			System.out.println(REQUISITI_NON_SODDISFATTI);
+			logic.RimuoviRete(daSalvare);
 		}
 		System.out.println();
 	}
