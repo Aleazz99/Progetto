@@ -1,0 +1,12 @@
+OBIETTIVO: aggiungere una rete
+SCENARI: nome della rete non presente, nome della rete già presente
+SCENARIO PRINCIPALE:
+1.viene chiesto il nome della rete da aggiungere
+
+SCENARIO SECONDARIO:
+
+
+
+OBIETTIVO: salvataggio della rete
+
+OBIETTIVO: visualizza rete
